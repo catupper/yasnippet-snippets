@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: ok-ng
+# key: okng
+# group: CompetitiveProgramming
+# --
+
+void ok(){
+  cout << "${1:Yes}" << endl;
+  exit(0);
+}
+
+void ng(){
+  cout <<  "${2:No}" << endl;
+  exit(0);
+}
+$0

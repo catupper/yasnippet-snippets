@@ -1,0 +1,63 @@
+# -*- mode: snippet -*-
+# name: Dinic
+# key: /dinic
+# group: Algorithm
+# --
+
+class Dinic{
+public:
+  Graph *g;
+  vector<int> iter, level, come;
+
+  Dinic(){};
+  void bfs(int s){
+    queue<int> q;
+    fill(level.begin(), level.end(), INF);
+    level[s] = 0;
+    q.push(s);
+    while(!q.empty()){
+      int x = q.front();q.pop();
+      for(auto e:g->edge[x]){
+	if(level[e.to] != INF)continue;
+	if(e.lim <= 0)continue;
+	level[e.to] = level[x] + 1;
+	q.push(e.to);
+      }
+    }
+  }
+
+  Int dfs(int s, int t, Int f){
+    if(s == t)return f;
+    if(come[s])return 0;
+    come[s] = true;
+    for(int &i = iter[s];i < g->edge[s].size();i++){
+      Edge &e = g->edge[s][i];
+      if(e.lim <= 0)continue;
+      Int tmp = dfs(e.to, t, min(f, e.lim));
+      if(tmp == 0)continue;
+      e.lim -= tmp;
+      g->edge[e.to][e.rev].lim += tmp;
+      return tmp;
+    }
+    return 0;
+  }
+  Int max_flow(Graph &_g, int s, int t){
+    g = &_g;
+    iter = vector<int>(g->n);
+    level = vector<int>(g->n);
+    come = vector<int>(g->n, 0);
+    Int res = 0;
+    while(true){
+      bfs(s);
+      if(level[t] == INF)break;
+      fill(iter.begin(), iter.end(), 0);
+      while(true){
+	fill(come.begin(), come.end(), false);
+	Int tmp = dfs(s, t, INF);
+	if(tmp == 0)break;
+	else res += tmp;
+      }
+    }
+    return res;   
+  }  
+};

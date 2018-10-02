@@ -1,0 +1,55 @@
+# -*- mode: snippet -*-
+# name: line(geometry)
+# key: /line
+# group: Geometry
+# --
+
+class Line{
+public:
+  Vec a, b;
+  Vec vect;
+  Line(Vec a = Vec(), Vec b = Vec()):a(a),b(b),vect(b-a){}
+
+  //projection
+  Vec proj(Vec p){
+    p = p - a;
+    return a + vect * vect.dot(p) / vect.norm2();
+  }
+
+  //reflection
+  Vec reflect(Vec p){
+    return proj(p) * 2 - p;
+  }
+
+  bool onSegment(Vec p){
+    return abs((p-a).cross(b-a)) < EPS && (p-a).dot(p-b) < EPS;
+  }
+
+  //other -> LineSegment(not inclusive), this -> Line
+  bool _intersect(Line other){
+    return CCW(a, b, other.a) * CCW(a, b, other.b) < 0;
+  }
+
+  //other, this: both are LineSegment(inclusive)
+  bool intersect(Line other){
+    return onSegment(other.a) || onSegment(other.b) || other.onSegment(a) || other.onSegment(b) || _intersect(other) && other._intersect(*this);
+  }
+
+  //low accuracy
+  Vec crossPoint(Line &other){
+    double ratio = (a - other.a).cross(vect) / other.vect.cross(vect);
+    return other.a + other.vect * ratio;
+  }
+
+  double dist(Vec p){
+    Vec pp = proj(p);
+    if(onSegment(pp))return ::dist(p, pp);
+    else return min(::dist(p, a), ::dist(p, b));
+  }
+  
+  double dist(Line &other){
+    if(intersect(other))return 0;
+    return min(min(dist(other.a), dist(other.b)), min(other.dist(a), other.dist(b)));
+  }
+};
+

@@ -1,0 +1,51 @@
+# -*- mode: snippet -*-
+# name: Polygon
+# key: /polygon
+# group: Geometry
+# --
+
+class Polygon{
+public:
+  vector<Vec> points;
+  Int n;
+  Polygon(){}
+  void read(Int _n){
+    n = _n;
+    points.clear();
+    while(_n--)points.push_back(Vec().read());
+  }
+  Polygon &set(vector<Vec> &v){
+    points = v;
+    n = points.size();
+    return *this;
+  }
+  Vec& operator[](int index)
+  {
+    index %= n;
+    if(index < 0)index += n;
+    return points[index];
+  }
+  //Signed Area
+  double area(){
+    double area = 0;
+    for(int i = 0;i < n;i++){
+      area += points[i].cross(points[(i+1)%n]);
+    }
+    return area / 2;
+  }
+
+  //inside:2, onEdge:1, outside:0
+  Int inPolygon(Vec p){
+    Int crossCount = 0;
+    Line halfLine(p, Vec(p.x+1,INF));
+    for(int i = 0;i < n;i++){
+      if(Line(points[i], points[(i+1)%n]).onSegment(p))return 1;
+      if(Line(points[i], points[(i+1)%n]).intersect(halfLine))crossCount++;
+      if(halfLine.onSegment(points[i])){
+	crossCount--;
+      }
+
+    }
+    return (crossCount%2)*2;
+  }
+};

@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: Compressor
+# key: /compress
+# group: DataStructure
+# --
+
+class Compressor{
+public:
+  vector<Int> dict;
+  Compressor(){}
+  void add(Int x){
+    dict.push_back(x);
+  }
+  void compress(){
+    sort(dict.begin(), dict.end());
+    dict.erase(unique(dict.begin(), dict.end()), dict.end());
+  }
+  int convert(Int x){
+    return lower_bound(dict.begin(), dict.end(), x) - dict.begin();
+  }
+  Int& operator[](int index)
+  {
+    return dict[index];
+  }
+};

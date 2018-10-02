@@ -1,0 +1,58 @@
+# -*- mode: snippet -*-
+# name: ClosestPoints
+# key: /closest
+# group: Geometry
+# --
+
+
+bool comp_x(Vec a, Vec b){return a < b;}
+bool comp_y(Vec a, Vec b){
+  return (a.y < b.y || abs(a.y - b.y) < EPS && a.x < b.x);
+}
+
+pair<Vec, Vec> _cp(vector<Vec>::iterator l, vector<Vec>::iterator r){
+  int n = r - l;
+  if(n <= 3){
+    pair<Vec, Vec> res = {*l, *(l+1)};
+    for(auto it = l;it < r;it++)
+      for(auto jt = it + 1;jt < r;jt++)
+	if(dist(*it, *jt) < dist(res.first, res.second))
+	  res = {*it, *jt};
+    sort(l, r, comp_y);
+    return res;
+  }
+  pair<Vec, Vec> res, res2;
+  double minDist;
+  auto mid = l + (n / 2);
+  double midx = mid->x;
+  res = _cp(l, mid);
+  minDist = dist(res.first, res.second);
+  res2 = _cp(mid, r);
+  if(minDist > dist(res2.first, res2.second)){
+    minDist = dist(res2.first, res2.second);
+    res = res2;
+  }
+  inplace_merge(l, mid, r, comp_y);
+  vector<Vec> center;
+  for(auto it = l;it < r;it++)
+    if(midx - minDist < it->x && it->x < midx + minDist)
+      center.push_back(*it);
+  if(center.size() <= 1)return res;
+  auto jt = center.begin();
+  for(auto it = center.begin();it < center.end();it++){
+    while(jt == center.end() || jt > center.begin() && it->y - minDist < jt->y)jt--;
+    while(jt < center.end() && it->y + minDist > jt->y){
+      if(it != jt && dist(*it, *jt) < minDist){
+	res = {*it, *jt};
+	minDist = dist(res.first, res.second);	
+      }
+      jt++;
+    }
+  }
+  return res;  
+}
+
+pair<Vec, Vec> closestPair(vector<Vec> &points){
+  sort(points.begin(), points.end(), comp_x);
+  return _cp(points.begin(), points.end());  
+}

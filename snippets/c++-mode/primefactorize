@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: PrimeFactorize
+# key: /primefactorize
+# group: NumberTheory
+# --
+
+
+vector<Int> primeFactorize(Int n){
+  vector<Int> res;
+  if(n <= 1)return {n};
+  for(Int i = 2;i*i <= n;i++){
+    while(n % i == 0){
+      res.push_back(i);
+      n /= i;
+    }
+  }
+  if(n != 1)res.push_back(n);
+  return res;
+}

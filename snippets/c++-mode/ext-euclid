@@ -1,0 +1,17 @@
+# -*- mode: snippet -
+# name: ExtendedEuclidAlgorithm
+# key: /euclid
+# group: NumberTheory
+# --
+
+//return gcd(a,b); calc x,y s.t ax + by = g
+Int extEuclid(Int a, Int b, Int &x, Int &y){
+  if(a == 0){
+    x = 0;
+    y = 1;
+    return b;
+  }
+  Int g = extEuclid(b % a, a, y, x);
+  x -= b/a * y;
+  return g;
+}

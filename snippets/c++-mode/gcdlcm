@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: GCDLCM
+# key: /gcdlcm
+# group: NumberTheory
+# --
+
+#define gcd _____gcd //for c++17
+Int gcd(Int x, Int y){
+  if(x == 0)return y;
+  return gcd(y%x, x);
+}
+
+Int lcm(vector<Int> vec){
+  Int res = 1;
+  for(auto n:vec){
+    Int g = gcd(res, n);
+    res *= n / g;
+  }
+  return res;
+}

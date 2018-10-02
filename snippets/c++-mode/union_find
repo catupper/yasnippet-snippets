@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: union-find
+# key: /unionfind
+# group: DataStructure
+# --
+class UnionFind{
+public:
+	int n;
+	vector<int> u;
+	UnionFind(int _n = 0){
+		n = _n;
+		u = vector<int>(n);
+		for(int i = 0;i < n;i++)u[i] = i;
+	}
+	int r(int x){
+	    if(u[x] == x)return x;
+	    return u[x] = r(u[x]);
+	}
+	int unite(int x, int y){
+	    x = r(x);
+	    y = r(y);
+	    if(x != y)u[x] = y;
+	}
+};$0

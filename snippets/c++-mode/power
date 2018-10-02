@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Power
+# key: /power
+# group: NumberTheory
+# --
+Int pow(Int x, Int a, Int m = MOD){
+  if(a == 0)return 1;
+  Int res = pow(x, a / 2, m);
+  res = res * res % m;
+  if(a % 2)res *= x;
+  return res % m;
+}

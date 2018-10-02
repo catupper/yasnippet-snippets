@@ -1,0 +1,100 @@
+# -*- mode: snippet -*-
+# name: vector(geometry)
+# key: /vector
+# group: Geometry
+# --
+
+class Vec{
+public:
+  double x, y;
+  Vec(double x = 0, double y = 0):x(x),y(y){}
+
+  Vec &read(){
+    cin >> x >> y;
+    return *this;
+  }
+
+  void print(){
+    printf("%.10lf %.10lf\n", x, y);
+  }
+
+  bool operator<(const Vec &other){
+    if(x < other.x)return true;
+    if(x == other.x && y < other.y)return true;
+    return false;
+  }
+  
+  Vec operator+(const Vec &other)
+  {
+    Vec result = *this;
+    result.x += other.x;
+    result.y += other.y;
+    return result;
+  }
+
+  Vec operator-(const Vec &other)
+  {
+    Vec result = *this;
+    result.x -= other.x;
+    result.y -= other.y;
+    return result;
+  }
+
+  Vec operator*(const double &k)
+  {
+    Vec result = *this;
+    result.x *= k;
+    result.y *= k;
+    return result;
+  }
+
+  Vec operator/(const double &k)
+  {
+    Vec result = *this;
+    result.x /= k;
+    result.y /= k;
+    return result;
+  } 
+  
+  double cross(const Vec &other)
+  {
+    return x*other.y - y*other.x;
+  }
+
+  double dot(const Vec &other){
+    return x*other.x + y*other.y;
+  }
+  
+  bool operator==(const Vec &other) const
+  {
+    return abs(x - other.x) < EPS && abs(y - other.y) < EPS;
+  }
+
+  double norm()
+  {
+    return sqrt(x*x+y*y);
+  }
+
+  double norm2()
+  {
+    return x*x+y*y;
+  }
+
+  Vec standard(){
+    Vec result = *this;
+    return result/result.norm();
+  }
+};
+
+//cw:1, ccw:-1, other:0
+Int CCW(Vec a, Vec b, Vec c){
+  b = b - a;
+  c = c - a;
+  if(b.cross(c) > EPS)return -1;
+  if(b.cross(c) < -EPS)return 1;
+  return 0;
+}
+
+double dist(Vec a, Vec b){
+  return (a-b).norm();
+}

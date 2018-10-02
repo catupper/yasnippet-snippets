@@ -1,0 +1,21 @@
+# -*- mode: snippet -
+# name: Totient
+# key: /totient
+# group: NumberTheory
+# --
+Int totient(Int n){
+  Int res = 1;
+  if(n == 1)return 1;
+  for(Int i = 2;i * i < n;i++){
+    if(n % i)continue;
+    n /= i;
+    res *= (i-1);
+    while(n % i == 0){
+      res *= i;
+      n /= i;
+    }
+  }
+  if(n != 1)res *= n-1;
+  return res;
+}
+

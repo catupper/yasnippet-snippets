@@ -1,0 +1,36 @@
+# -*- mode: snippet -*-
+# name: Graph
+# key: /graph
+# group: DataStructure
+# --
+
+
+class Edge{
+public:
+  int from, to, rev;
+  Int cost, lim;
+  Edge(int from, int to, Int cost, int lim = -1, Int rev = -1):
+    from(from),to(to),cost(cost),lim(lim),rev(rev){}
+};
+
+
+class Graph{
+public:
+  int n;
+  int m;
+  vector<vector<Edge>> edge;
+  Graph(int n = 0):n(n),m(0){
+    edge = vector<vector<Edge>>(n);
+  }
+  void add_edge(int from, int to, int cost = 1, int lim = -1)
+  {
+    if(lim == -1){
+      edge[from].push_back(Edge(from, to, cost));
+      return;
+    }
+    edge[from].push_back(Edge(from, to, cost, lim, edge[to].size()));
+    edge[to].push_back(Edge(to, from, -cost, 0, edge[from].size() - 1));
+  }
+};
+
+$0

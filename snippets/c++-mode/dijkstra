@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: Dijkstra
+# key: dijkstra
+# group: Algorithm
+# --
+
+vector<Int> Dijkstra(Graph &g, int s){
+  priority_queue<P, vector<P>, greater<P> > pq;
+  vector<Int> dist(g.n, INF);
+  pq.push(P(0, s));
+  dist[s] = 0;
+
+  while(!pq.empty()){
+    P tmp = pq.top();pq.pop();
+    int from = tmp.second;
+    if(tmp.first > dist[from])continue;
+    for(auto e: g.edge[from]){
+      if(dist[e.to] <= dist[from] + e.cost)continue;
+      dist[e.to] = dist[from] + e.cost;
+      pq.push(P(dist[e.to], e.to));
+    }
+  }
+  return dist;
+}
