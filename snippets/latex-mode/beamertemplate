@@ -1,0 +1,122 @@
+# -*- mode: snippet -*-
+# name: beamerTemplate
+# key: /beamertemplate
+# --
+
+\documentclass[dvipdfmx]{beamer}
+\usepackage{etex}
+\usepackage{url, amsmath,enumerate,fancyhdr,amssymb, amsthm, 
+  pstricks, epsf, lscape, ifpdf, graphicx, float,mathtools}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage[ruled, boxed, noend, noline, linesnumbered, norelsize]{algorithm2e}
+\usepackage{cancel}
+\usepackage[normalem]{ulem} 
+\usetheme{Frankfurt}
+\usepackage{wasysym,tikzsymbols}
+\usecolortheme{seahorse}
+
+\newcommand{\face}{\mathrel{\unlhd}}
+\newcommand{\jAlg}{\mathcal{E}}
+\newcommand{\SOC}[1]{{\mathcal{Q}^{#1}}}
+\newcommand{\SOCM}{{\mathcal{K}}}
+\newcommand{\interior}{\mathrm{int}\,}
+\newcommand{\reInt}{\mathrm{ri}\,}
+\newcommand{\reCone}{\mathrm{rec}\,}
+\newcommand{\lineality}{\mathrm{lin}\,}
+\newcommand{\relBd}{\mathrm{relbd}\,}
+\newcommand{\closure}{\mathrm{cl}\,}
+\newcommand{\epi}{\mathrm{epi}\,}
+\newcommand{\hyp}{\mathrm{hyp}\,}
+\newcommand{\dirCone}{\mathrm{dir}\,}
+\newcommand{\affineHull}{\mathrm{aff}\,}
+\newcommand{\spanVec}{\mathrm{span}\,}
+\newcommand{\norm}[1]{\lVert{#1}\rVert}
+\newcommand{\inProd}[2]{\langle #1 , #2 \rangle }
+\newcommand{\wfOracle}{\mathcal{O}_{\text{wf} }}
+\newcommand{\sfOracle}{\mathcal{O}_{\text{sf} }}
+\newcommand{\feasP}{\mathcal{F}_{\text{P }}}
+\newcommand{\feasD}{\mathcal{F}_{\text{D }}}
+\newcommand{\feasS}{\mathcal{F}_{\text{D }}}
+\newcommand{\PSDcone}[1]{{\mathcal{S}^{#1}_+}}	
+\newcommand{\nonNegative}[1]{{\mathcal{N}^{#1}}}	
+\newcommand{\doubly}[1]{{\mathcal{D}^{#1}}}	
+\newcommand{\tanSpace}[2]{ {T_{#1}#2}}			 
+\newcommand{\tanCone}[2]{ {\mathrm{tcone}\, _{#1}#2}}	 
+\newcommand{\minFaceD}{ {\mathcal{F}_{\min}^D}}
+\newcommand{\minFaceP}{ {\mathcal{F}_{\min}^P}}
+\newcommand{\minFace}[1]{ {\mathcal{F}_{\min}^{#1}}}
+\newcommand{\minFacePoint}[2]{ {\mathcal{F}_{\min}(#1,#2)}}
+\newcommand{\stdMap}{ {\mathcal{A}}}
+\newcommand{\stdMapAlt}{ {\mathcal{B}}}
+\newcommand{\stdCone}{ {\mathcal{K}}}
+\newcommand{\stdSpace}{ \mathcal{L}}
+\newcommand{\stdSpaceAlt}{ \mathcal{V}}
+\newcommand{\stdAffine}{ \mathcal{V}}
+\newcommand{\stdFace}{ \mathcal{F}}
+\newcommand{\stdSub}{ {\overline \pi _s}}
+\newcommand{\stdInt}{ {e}}
+\newcommand{\pOpt}{ {\theta _P}}
+\newcommand{\dOpt}{ {\theta _D}}
+\newcommand{\opt}[1]{ {\theta _{#1}}}
+\newcommand{\matRank}{{\mathrm{ rank } \,}}	
+\newcommand{\matRange}{{\mathrm{ range } \,}}	
+\newcommand{\IPO}{(\hyperref[def:oracle]{IPO})\,}
+\newcommand{\FRA}{{FR}}
+\newcommand{\intPoint}{{e}}
+\newcommand{\optOracle}{\mathcal{O}_{\text{opt}}}
+\newcommand{\feasOracle}{\mathcal{O}_{\text{feas}}}
+\newcommand{\intOracle}{\mathcal{O}_{\text{int}}}
+\renewcommand{\Re}{\mathbb{R}}    
+\newcommand{\fDom}{\mathrm{ dom } \,}  
+\renewcommand{\S}{\mathcal{S}}                    
+\newcommand{\tr}{\mathrm{trace}}
+\newcommand{\distP}{\ell _{\text{poly}}}        
+\newcommand{\dimSpace}{{\mathrm{dim}} \,}  
+\newcommand{\dist}{ {\mathrm{dist}\,}}	
+\newcommand{\jProd}[2]{ {#1 \circ #2 } }	
+\newcommand{\halfLine}{\mathrm{h}\,}
+\newcommand{\grad}{\nabla}  
+\newcommand{\T}{\top\hspace{-1pt}}     
+\newcommand{\distS}{d _{\text{str}}} 
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\newtheorem{proposition}{Proposition}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\definecolor{silver}{RGB}{192,192,192}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\newsavebox\mybox
+\newenvironment{aquote}[1]
+
+{\savebox\mybox{#1}\begin{quote}}
+{\signed{\usebox\mybox}\end{quote}}
+
+
+
+\newcommand{\backupbegin}{
+  \newcounter{framenumberappendix}
+  \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+  \addtocounter{framenumberappendix}{-\value{framenumber}}
+  \addtocounter{framenumber}{\value{framenumberappendix}} 
+}
+
+
+
+\title{Title}
+%\author{Ken Ogura \\ 5th labo }
+\author{小倉 拳\\ 数理5研}
+\resetcounteronoverlays{algocf}
+\begin{document}
+\maketitle
+
+
+\section{Introduction}
+
+\end{document}
