@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: SegmentTree
+# key: /seg
+# group: DataStructure
+# --
+
+
+const Int MAX_SIZE = 1 << 19;
+Int seg[MAX_SIZE * 2];
+Int all[MAX_SIZE * 2];
+
+void add(Int l, Int r, Int bottom = 0, Int top = MAX_SIZE, Int pos = 1){
+     if(l <= 
+}
+
+Int sum(vector<int> &bit, int ind){
+  ind++;
+  Int res = 0;
+  while(ind){
+    res += bit[ind];
+    ind -= ind & -ind;
+  }
+  return res;
+}

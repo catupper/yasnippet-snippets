@@ -3,10 +3,14 @@
 # key: /power
 # group: NumberTheory
 # --
-Int pow(Int x, Int a, Int m = MOD){
+Int mod_pow(Int x, Int a, Int m = MOD){
   if(a == 0)return 1;
-  Int res = pow(x, a / 2, m);
+  Int res = mod_pow(x, a / 2, m);
   res = res * res % m;
   if(a % 2)res *= x;
   return res % m;
+}
+
+Int inv(Int x, Int m = MOD){
+    return mod_pow(x, m-2, m);
 }
