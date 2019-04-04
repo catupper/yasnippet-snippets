@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: VectorTool
+# key: /vectortool
+# group: CompetitiveProgramming
+# --
+
+
+
+template<typename T>
+ostream& operator<<(ostream& stream, vector<T>& vec){
+  for(T v:vec)stream << v << " ";
+  return stream;
+}
