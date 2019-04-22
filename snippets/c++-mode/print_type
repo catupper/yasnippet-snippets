@@ -1,0 +1,10 @@
+# -*- mode: c++-mode -*-
+# name: print_type
+# key: /print_type
+# --
+
+template<typename T>
+void print_type(T&&){
+  cout << boost::typeindex::type_id_with_cvr<T>().pretty_name() << endl;
+}
+$0
