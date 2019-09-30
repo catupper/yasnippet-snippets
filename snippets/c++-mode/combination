@@ -4,9 +4,9 @@
 # group: NumberTheory
 # --
 
-Int fact[1080000];
-Int revfact[1080000];
-Int rev[1080000];
+Int fact[1100000];
+Int revfact[1100000];
+Int rev[1100000];
 
 void init(){
   Int m = MOD;
@@ -14,7 +14,7 @@ void init(){
   revfact[0] = 1;
   rev[0] = 0;
   rev[1] = 1;
-  for(int i = 1;i < 1080000;i++){
+  for(int i = 1;i < 1100000;i++){
     fact[i] = fact[i-1] * i % m;
     if(i>1)rev[i] = MOD / i * (MOD-rev[MOD % i]) % MOD;
     revfact[i] = revfact[i-1] * rev[i] % MOD;
