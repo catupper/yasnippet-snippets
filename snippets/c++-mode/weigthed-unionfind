@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: weighted-union-find
-# key: weightedunionfind
+# key: /wuf
 # group: DataStructure
 # --
 
@@ -29,7 +29,7 @@ public:
   //x - y == w
   bool isOK(int x, int y, Int w){
     if(r(x) != r(y))return false;
-    return dif(x,y) == 0;
+    return dif(x,y) == w;
   }
 
   int unite(int x, int y, Int w){

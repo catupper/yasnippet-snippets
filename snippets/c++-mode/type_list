@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: type_list
+# key: /type_list
+# --
+
+template <class... Types>
+class type_list{
+public:
+  type_list(){}
+
+  type_list<Types...> operator+(type_list<>&& other){
+    return *this;
+  }
+  
+  
+  template<class Head, class... Tail>
+  auto operator+(type_list<Head, Tail...>&& other){
+    return type_list<Head, Types...>() + type_list<Tail...>();
+  }
+};
+
+template <class... Types>
+type_list<Types...> make_type_list(Types&&... args){
+  return type_list<Types...>();
+}
+$0

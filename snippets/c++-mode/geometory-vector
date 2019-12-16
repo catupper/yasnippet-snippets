@@ -18,7 +18,7 @@ public:
     printf("%.10lf %.10lf\n", x, y);
   }
 
-  bool operator<(const Vec &other){
+  bool operator<(const Vec &other) const{
     if(x < other.x)return true;
     if(x == other.x && y < other.y)return true;
     return false;
@@ -64,10 +64,13 @@ public:
   double dot(const Vec &other){
     return x*other.x + y*other.y;
   }
-  
   bool operator==(const Vec &other) const
   {
     return abs(x - other.x) < EPS && abs(y - other.y) < EPS;
+  }
+  bool operator!=(const Vec &other) const
+  {
+    return !(*this == other);
   }
 
   double norm()
