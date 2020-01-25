@@ -34,6 +34,7 @@ void induced_sort(T &vec, int max_size, vector<int> &cnt, vector<int> &sa, vecto
     }
 }
 
+//Don't forget to add UNIQUE lixicographically smallest element at the end!
 template<class T>
 vector<int> suffix_array(T &vec, int max_size = 256){
     if(vec.size() == 1)return {0};
