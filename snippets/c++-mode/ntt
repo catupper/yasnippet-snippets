@@ -1,0 +1,50 @@
+# -*- mode: snippet -*-
+# name: NTT
+# key: /ntt
+# group: NumberTheory
+# --
+
+void _NTT(vector<Int> &a, vector<Int> &tmp, int l, int r, Int w = -1){
+    if(r - l == 1)return;
+    if(w == -1){
+        w = mod_pow(3, (MOD2-1) / (r-l), MOD2);
+    }
+    int n = r - l;
+    for(int i = 0;i < n/2;i++){
+        tmp[l + i] = a[l + i * 2];
+        tmp[l + n/2 + i] = a[l + i * 2 + 1];
+    }
+    _NTT(tmp, a, l, l + n / 2, w*w%MOD2);
+    _NTT(tmp, a, l + n / 2, r, w*w%MOD2);
+
+    Int wi = 1;
+    for(int i = 0;i < n;i++){
+        a[l+i] = tmp[l+i%(n/2)] + tmp[l+n/2+i%(n/2)] * wi;a[l+i] %= MOD2;
+        wi = wi * w % MOD2;
+    }
+}
+
+vector<Int> NTT(vector<Int> &a){
+    vector<Int> res = a;
+    vector<Int> tmp = a;
+    _NTT(res, tmp, 0, a.size());
+    return res;
+}
+
+vector<Int> InvNTT(vector<Int> &a){
+    reverse(next(a.begin()), a.end());
+    vector<Int> res = NTT(a);
+    reverse(next(a.begin()), a.end());
+    Int invn = inv(a.size(), MOD2);
+    for(int i = 0;i < res.size();i++)res[i] = res[i] * invn % MOD2;
+    return res;
+}
+
+vector<Int> conv(vector<Int> &a, vector<Int> &b){
+    int n = a.size();
+    auto A = NTT(a);
+    auto B = NTT(b);
+    for(int i = 0;i < n;i++)A[i] = A[i] * B[i] % MOD2;
+    auto res = InvNTT(A);
+    return res;
+}
