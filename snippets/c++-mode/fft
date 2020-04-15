@@ -1,0 +1,67 @@
+# -*- mode: snippet -*-
+# name: FFT
+# key: /FFT
+# group: LinearAlgebra
+# --
+
+vector<CP> INV_FFT(vector<CP>&);
+vector<CP> FFT2POW(vector<CP> &x, CP w){
+    if(x.size() == 1)return x;
+    Int n = x.size();
+    vector<CP> even;
+    vector<CP> odd;
+    for(Int i = 0;i < n;i++){
+        if(i % 2 == 0)even.push_back(x[i]);
+        else odd.push_back(x[i]);
+    }
+    even = FFT2POW(even, w * w);
+    odd = FFT2POW(odd, w * w);
+    vector<CP> res(n);
+    CP w_i = 1;
+    for(Int i = 0;i < n;i++){
+        res[i] = even[i % even.size()] + w_i * odd[i % odd.size()];
+        w_i *= w;
+    }
+    return res;
+}
+
+CP primitive_root(Int n){
+    double theta = 2 * PI/ n;
+    return CP(cos(theta), sin(theta));
+}
+
+vector<CP> FFT(vector<CP> &a){
+    Int n = a.size();
+    if((n & -n) == n)return FFT2POW(a, primitive_root(n));
+    
+    Int m = 1;
+    while(m < 2*n)m <<= 1;
+    
+    CP w = primitive_root(2 * n);
+    vector<CP> ws(2*n+1,1);
+    for(Int i = 1;i <= 2*n;i++)ws[i] = ws[i-1] * w;
+
+    vector<CP> winv(m, 0);
+    vector<CP> aw(m, 0);
+    for(Int i = 0;i < n;i++){
+        Int p = -(i*i) % (2*n) + 2*n;
+        winv[n-i] = winv[n+i] = ws[p];
+        aw[i] = a[i] * ws[i*i%(2*n)];
+    }
+    auto AW = FFT(aw);
+    auto WINV = FFT(winv);
+    for(int i = 0;i < m;i++)WINV[i] *= AW[i];
+    vector<CP> c = INV_FFT(WINV);
+    vector<CP> A(n);
+    for(Int i = 0;i < n;i++){
+        A[i] = ws[i*i%(2*n)] * c[n+i]; 
+    }
+    return A;    
+}
+
+vector<CP> INV_FFT(vector<CP>& x){
+    reverse(x.begin() + 1, x.end());
+    auto res = FFT(x);
+    for(auto &elem:res)elem /= res.size();
+    return res;
+}
