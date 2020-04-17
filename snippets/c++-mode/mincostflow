@@ -3,64 +3,72 @@
 # key: /mcf
 # group: Algorithm
 # --
+
 class MinCostFlow{
- public:
-  priority_queue<P, vector<P>, greater<P> > pq;
-  vector<Int> dist;
-  vector<Int> before;
-  vector<Int> index;
-  MinCostFlow(){}
+public:
+    priority_queue<P, vector<P>, greater<P> > pq;
+    vector<Int> dist;
+    vector<Int> before;
+    vector<Int> index;
+    vector<Int> potential;
+    MinCostFlow(){}
     
-  void Dijkstra(Graph &g, Int s){
-    fill(dist.begin(), dist.end(), INF);
-    pq.push(P(0, s));
-    dist[s] = 0;
+    void Dijkstra(Graph &g, Int s){
+        fill(dist.begin(), dist.end(), INF);
+        pq.push(P(0, s));
+        dist[s] = 0;
 
-    while(!pq.empty()){
-      P tmp = pq.top();pq.pop();
-      Int from = tmp.second;
-      if(tmp.first > dist[from])continue;
-      for(Int i = 0;i < g.edge[from].size();i++){
-	auto e = g.edge[from][i];
-	if(e.lim == 0)continue;
-	if(dist[e.to] <= dist[from] + e.cost)continue;
-	dist[e.to] = dist[from] + e.cost;
-	before[e.to] =from;
-	index[e.to] = i;
-	pq.push(P(dist[e.to], e.to));
-      }
+        while(!pq.empty()){
+            P tmp = pq.top();pq.pop();
+            Int from = tmp.second;
+            if(tmp.first > dist[from])continue;
+            for(Int i = 0;i < g.edge[from].size();i++){
+                auto e = g.edge[from][i];
+                auto cost = e.cost + potential[e.from] - potential[e.to];
+                if(e.lim == 0)continue;
+                if(dist[e.to] <= dist[from] + cost)continue;
+                dist[e.to] = dist[from] + cost;
+                before[e.to] =from;
+                index[e.to] = i;
+                pq.push(P(dist[e.to], e.to));
+            }
+        }
+        for(int i = 0;i < g.n;i++){
+            dist[i] -= potential[i];
+            potential[i] = dist[i];
+        }
     }
-  }
 
-  
-  Int mcf(Graph &g, Int s, Int t, Int f){
-    Int res = 0;
-    dist = vector<Int>(g.n);
-    before = vector<Int>(g.n);
-    index = vector<Int>(g.n);
-    while(f){
-      Dijkstra(g, s);
-      Int flow = f;
-      for(Int now = t;now != s;){
-	Int last = before[now];
-	Int ind = index[now];
-	auto &e = g.edge[last][ind];
-	if(e.lim == 0 || e.to != now)return -1;
-	flow = min(flow, e.lim);
-	now = last;
-      }
-      for(Int now = t;now != s;){
-	Int last = before[now];
-	Int ind = index[now];
-	auto &e = g.edge[last][ind];
-	e.lim -= flow;
-	g.edge[e.to][e.rev].lim += flow;
-	res += e.cost * flow;
-	now = last;
-      }
-      f -= flow;
-      if(flow==0)return -1;
+    
+    Int mcf(Graph &g, Int s, Int t, Int f){
+        Int res = 0;
+        dist = vector<Int>(g.n);
+        potential = vector<Int>(g.n);
+        before = vector<Int>(g.n);
+        index = vector<Int>(g.n);
+        while(f){
+            Dijkstra(g, s);
+            Int flow = f;
+            for(Int now = t;now != s;){
+                Int last = before[now];
+                Int ind = index[now];
+                auto &e = g.edge[last][ind];
+                if(e.lim == 0 || e.to != now)return -1;
+                flow = min(flow, e.lim);
+                now = last;
+            }
+            for(Int now = t;now != s;){
+                Int last = before[now];
+                Int ind = index[now];
+                auto &e = g.edge[last][ind];
+                e.lim -= flow;
+                g.edge[e.to][e.rev].lim += flow;
+                res += e.cost * flow;
+                now = last;
+            }
+            f -= flow;
+            if(flow==0)return -1;
+        }
+        return res;
     }
-    return res;
-  }
 };
