@@ -34,7 +34,7 @@ public:
             }
         }
         for(int i = 0;i < g.n;i++){
-            dist[i] -= potential[i];
+            dist[i] += potential[i];
             potential[i] = dist[i];
         }
     }
