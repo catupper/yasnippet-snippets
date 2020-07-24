@@ -6,98 +6,130 @@
 
 class Vec{
 public:
-  double x, y;
-  Vec(double x = 0, double y = 0):x(x),y(y){}
+    Real x, y;
+    Vec(Real x = 0, Real y = 0):x(x),y(y){}
 
-  Vec &read(){
-    cin >> x >> y;
-    return *this;
-  }
+    Vec &read(){
+        cin >> x >> y;
+        return *this;
+    }
 
-  void print(){
-    printf("%.10lf %.10lf\n", x, y);
-  }
+    void print(){
+        printf("%.10lf %.10lf\n", double(x), double(y));
+    }
 
-  bool operator<(const Vec &other) const{
-    if(x < other.x)return true;
-    if(x == other.x && y < other.y)return true;
-    return false;
-  }
-  
-  Vec operator+(const Vec &other)
-  {
-    Vec result = *this;
-    result.x += other.x;
-    result.y += other.y;
-    return result;
-  }
+    bool operator<(const Vec &other) const{
+        if(x < other.x)return true;
+        if(x == other.x && y < other.y)return true;
+        return false;
+    }
+    
+    Vec operator+(const Vec &other)
+        {
+            Vec result = *this;
+            result.x += other.x;
+            result.y += other.y;
+            return result;
+        }
 
-  Vec operator-(const Vec &other)
-  {
-    Vec result = *this;
-    result.x -= other.x;
-    result.y -= other.y;
-    return result;
-  }
+    Vec operator-(const Vec &other)
+        {
+            Vec result = *this;
+            result.x -= other.x;
+            result.y -= other.y;
+            return result;
+        }
 
-  Vec operator*(const double &k)
-  {
-    Vec result = *this;
-    result.x *= k;
-    result.y *= k;
-    return result;
-  }
+    Vec operator*(const Real &k)
+        {
+            Vec result = *this;
+            result.x *= k;
+            result.y *= k;
+            return result;
+        }
 
-  Vec operator/(const double &k)
-  {
-    Vec result = *this;
-    result.x /= k;
-    result.y /= k;
-    return result;
-  } 
-  
-  double cross(const Vec &other)
-  {
-    return x*other.y - y*other.x;
-  }
+    Vec operator/(const Real &k)
+        {
+            Vec result = *this;
+            result.x /= k;
+            result.y /= k;
+            return result;
+        } 
+    
+    Real cross(const Vec &other)
+        {
+            return x*other.y - y*other.x;
+        }
 
-  double dot(const Vec &other){
-    return x*other.x + y*other.y;
-  }
-  bool operator==(const Vec &other) const
-  {
-    return abs(x - other.x) < EPS && abs(y - other.y) < EPS;
-  }
-  bool operator!=(const Vec &other) const
-  {
-    return !(*this == other);
-  }
+    Real dot(const Vec &other){
+        return x*other.x + y*other.y;
+    }
+    bool operator==(const Vec &other) const
+        {
+            return abs(x - other.x) < EPS && abs(y - other.y) < EPS;
+        }
+    bool operator!=(const Vec &other) const
+        {
+            return !(*this == other);
+        }
 
-  double norm()
-  {
-    return sqrt(x*x+y*y);
-  }
+    Real norm()
+        {
+            return sqrt(x*x+y*y);
+        }
 
-  double norm2()
-  {
-    return x*x+y*y;
-  }
+    Real norm2()
+        {
+            return x*x+y*y;
+        }
 
-  Vec standard(){
-    Vec result = *this;
-    return result/result.norm();
-  }
+    Vec standard(){
+        Vec result = *this;
+        return result/result.norm();
+    }
 };
 
 //cw:1, ccw:-1, other:0
 Int CCW(Vec a, Vec b, Vec c){
-  b = b - a;
-  c = c - a;
-  if(b.cross(c) > EPS)return -1;
-  if(b.cross(c) < -EPS)return 1;
-  return 0;
+    b = b - a;
+    c = c - a;
+    if(b.cross(c) > EPS)return -1;
+    if(b.cross(c) < -EPS)return 1;
+    return 0;
 }
 
-double dist(Vec a, Vec b){
-  return (a-b).norm();
+Real dist(Vec a, Vec b){
+    return (a-b).norm();
+}
+
+
+//sort by atan2
+//y=0, x < 0 is base
+//atan2(0,0) == 0
+bool arg_comp(Vec a, Vec b){
+    int up_down_a = a.y > 0 || (a.y == 0 && a.x >= 0);
+    int up_down_b = b.y > 0 || (b.y == 0 && b.x >= 0);
+    if(up_down_a != up_down_b)return up_down_a < up_down_b;   
+    if(a.x * b.y == a.y * b.x)return a.norm() < b.norm();
+    return CCW(Vec(0,0), a, b) == -1;
+}
+
+
+int main(){
+    Int n;
+    Real x, y;
+    cin >> n;
+    vector<Vec> points;
+    for(int i = 0;i < n;i++){
+        cin >> x >> y;
+        points.push_back(Vec(x, y));
+    }
+    sort(points.begin(), points.end(), arg_comp);
+    int k = 0;
+    while(k < n && points[k].x < 0 && points[k].y == 0)k++;
+    for(int i = 0;i < n;i++){
+        auto p = points[(i+k)%n];
+        cout << int(p.x) << " " << int(p.y) << endl;
+    }
+    return 0;
 }

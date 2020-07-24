@@ -37,17 +37,17 @@ public:
 
   //low accuracy
   Vec crossPoint(Line &other){
-    double ratio = (a - other.a).cross(vect) / other.vect.cross(vect);
+    Real ratio = (a - other.a).cross(vect) / other.vect.cross(vect);
     return other.a + other.vect * ratio;
   }
 
-  double dist(Vec p){
+  Real dist(Vec p){
     Vec pp = proj(p);
     if(onSegment(pp))return ::dist(p, pp);
     else return min(::dist(p, a), ::dist(p, b));
   }
   
-  double dist(Line &other){
+  Real dist(Line &other){
     if(intersect(other))return 0;
     return min(min(dist(other.a), dist(other.b)), min(other.dist(a), other.dist(b)));
   }

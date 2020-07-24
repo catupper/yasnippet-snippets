@@ -5,10 +5,9 @@
 # --
 Int mod_pow(Int x, Int a, Int m = MOD){
   if(a == 0)return 1;
+  if(a % 2 == 1)return x * mod_pow(x, a - 1, m) % m;
   Int res = mod_pow(x, a / 2, m);
-  res = res * res % m;
-  if(a % 2)res *= x;
-  return res % m;
+  return res * res % m;
 }
 
 Int inv(Int x, Int m = MOD){

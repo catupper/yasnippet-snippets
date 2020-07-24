@@ -27,4 +27,4 @@ public:
   int size(int x){
     return -u[r(x)];
   }
-}
+};
