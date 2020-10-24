@@ -7,7 +7,7 @@
 void _NTT(vector<Int> &a, vector<Int> &tmp, int l, int r, Int w = -1){
     if(r - l == 1)return;
     if(w == -1){
-        w = mod_pow(3, (MOD2-1) / (r-l), MOD2);
+        w = mod_pow(PRIM, (MOD2-1) / (r-l), MOD2);
     }
     int n = r - l;
     for(int i = 0;i < n/2;i++){
@@ -24,6 +24,7 @@ void _NTT(vector<Int> &a, vector<Int> &tmp, int l, int r, Int w = -1){
     }
 }
 
+//a.size() must be power of 2
 vector<Int> NTT(vector<Int> &a){
     vector<Int> res = a;
     vector<Int> tmp = a;
@@ -31,6 +32,7 @@ vector<Int> NTT(vector<Int> &a){
     return res;
 }
 
+//a.size() must be power of 2
 vector<Int> InvNTT(vector<Int> &a){
     reverse(next(a.begin()), a.end());
     vector<Int> res = NTT(a);
@@ -40,6 +42,7 @@ vector<Int> InvNTT(vector<Int> &a){
     return res;
 }
 
+//a.size() == b.size() == power of 2
 vector<Int> conv(vector<Int> &a, vector<Int> &b){
     int n = a.size();
     auto A = NTT(a);

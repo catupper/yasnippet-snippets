@@ -1,0 +1,75 @@
+# -*- mode: snippet -*-
+# name: Graph
+# key: /scc
+# group: Graph
+# --
+
+class SCC{
+public:
+    vector<vector<int>> original_edge;
+    vector<vector<int>> redge;
+    vector<vector<int>> component_edge;
+    vector<int> component;
+    vector<int> back_order;
+    vector<int> come;
+    vector<int> topo_order;
+    vector<int> topo_dict;
+    int component_num;
+    int n;
+    SCC(int n, vector<vector<int>> &original_edge):n(n), original_edge(original_edge){
+        redge.resize(n);
+        come.resize(n);
+        component_edge.resize(n);
+        component.resize(n);
+        
+        for(int i = 0;i < n;i++)
+            for(auto to:original_edge[i])
+                redge[to].push_back(i);
+        for(int i = 0;i < n;i++)dfs(i);
+        fill(come.begin(), come.end(), 0);
+        for(auto it = back_order.rbegin();it != back_order.rend();it++)rdfs(*it, *it);
+        
+        for(int i = 0;i < n;i++)
+            for(auto to:original_edge[i])
+                if(component[i] != component[to])
+                    component_edge[component[i]].push_back(component[to]);
+        fill(come.begin(), come.end(), 0);
+        for(int i = 0;i < n;i++){
+            if(component[i] != i)continue;
+            topo_dfs(i);
+        }
+        component_num = topo_order.size();
+        reverse(topo_order.begin(), topo_order.end());
+        topo_dict.resize(n);
+        for(int i = 0;i < component_num;i++)topo_dict[topo_order[i]] = i;
+        for(int i = 0;i < n;i++)component[i] = topo_dict[component[i]];
+        for(int i = 0;i < n;i++)component_edge[i].clear();
+        for(int i = 0;i < n;i++)
+            for(auto to:original_edge[i])
+                if(component[i] != component[to])
+                    component_edge[component[i]].push_back(component[to]);
+    }
+
+    void dfs(int x){
+        if(come[x])return;
+        come[x] = true;
+        for(auto to:original_edge[x])dfs(to);
+        back_order.push_back(x);
+    }
+
+    void rdfs(int x, int g){
+        if(come[x])return;
+        come[x] =true;
+        component[x] = g;
+        for(auto to:redge[x])rdfs(to, g);
+    }
+
+    void topo_dfs(int x){
+        if(come[x])return;
+        come[x] = true;
+        for(auto to:component_edge[x])topo_dfs(to);
+        topo_order.push_back(x);
+    }
+};
+
+$0

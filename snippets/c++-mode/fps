@@ -1,0 +1,122 @@
+# -*- mode: snippet -*-
+# name: FPS
+# key: /fps
+# group: NumberTheory
+# --
+
+//a.size() == power of 2, a[0] = 1;
+vector<Int> fps_inv(vector<Int> &a){
+    Int a0 = a[0];
+    Int inva0 = inv(a0, MOD2);
+    int N = a.size();
+    for(int i = 0;i < N;i++)(a[i] *= inva0) %= MOD2;
+    vector<Int> prea = {a[0], a[1]};
+    vector<Int> x = {1, -a[1]};
+    int len = 2;
+    while(len+1 < N){
+        len = len * 2;
+        for(int i = prea.size();i < len;i++)prea.push_back(a[i]);
+        prea.resize(len*2, 0);
+        x.resize(len*2, 0);
+        auto tmp = conv(prea, x);
+        tmp = conv(tmp, x);
+        for(int i = 0;i < len;i++)(x[i] = x[i] * 2 - tmp[i]) %= MOD;
+        prea.resize(len);
+        x.resize(len);
+    }
+    a.resize(N);
+    for(int i = 0;i < N;i++)(a[i] *= a0) %= MOD2;
+    for(int i = 0;i < N;i++)(x[i] *= inva0) %= MOD2;    
+    return x;
+}
+
+//a.size() == power of 2, a[0] = 1;
+vector<Int> fps_log(vector<Int> &a){
+    int N = a.size();
+    auto da = a;
+    for(int i = 0;i < N;i++){
+        if(i == N-1)da[i] = 0;
+        else da[i] = da[i+1] * (i+1) % MOD2;
+    }
+    auto x = fps_inv(a);
+    da.resize(N*2, 0);
+    x.resize(N*2, 0);
+    x = conv(x, da);
+    for(int i = N-1;i > 0;i--){
+        x[i] = x[i-1] * inv(i, MOD2) % MOD2;
+    }
+    x[0] = 0;
+    x.resize(N);
+    return x;
+}
+
+//a.size() == power of 2, a[0] = 0;
+vector<Int> fps_exp(vector<Int> &a){   
+    int N = a.size();
+    vector<Int> x = {1, a[1]};
+    int len = 2;
+    while(len < N){
+        len *= 2;
+        x.resize(len, 0);
+        auto log_x = fps_log(x);
+        for(int i = 0;i < len;i++)log_x[i] = a[i] - log_x[i];
+        log_x[0] += 1;
+        log_x.resize(len * 2, 0);
+        x.resize(len * 2, 0);
+        x = conv(x, log_x);
+        x.resize(len);
+    }
+    return x;
+}
+
+// x^p == y mod mod or -1
+Int mod_rank(Int x, Int y, Int mod){
+    int b = 1;
+    while(b * b < mod)b++;
+    map<Int, Int> giant, baby;
+    Int tmp = 1;
+    for(int i = 0;i < b;i++){
+        baby[tmp] = i;
+        tmp = tmp * x % MOD2;
+    }
+    Int tmp2 = 1;
+    for(int i = 0;i < b;i++){
+        giant[tmp2] = i;
+        tmp2 = tmp * tmp2 % MOD2;
+    }
+    tmp = 1;
+    for(int i = 0;i < b;i++){        
+        Int invb = y * inv(tmp, MOD2)  %MOD2;
+        if(giant.count(invb)){
+            return giant[invb] * b + i;
+        }
+        tmp = tmp * x % MOD2;
+    }
+    return -1;
+}
+
+vector<Int> fps_pow(vector<Int> &a, Int p, Int q = 1){
+    Int g = gcd(p, q);p /= g, q /= g;
+    Int d = 0;
+    Int n = a.size();
+    while(d < n && a[d] == 0)d++;
+    if(d == n)return a;
+    if(d % q != 0)return {};
+    vector<Int> tmpa(n, 0);
+    for(int i = 0;i+d < n;i++)tmpa[i] = a[i+d];
+    Int a0 = tmpa[0];
+    for(int i = 0;i < n;i++)(tmpa[i] *= inv(a0, MOD2))%=MOD2;
+    auto l = fps_log(tmpa);
+    for(int i = 0;i < n;i++)(l[i] *= p * inv(q, MOD2) % MOD2)%=MOD2;
+    auto ans = fps_exp(l);
+    Int r = mod_rank(PRIM, a0, MOD2);if(r == -1)return {};
+    Int divr = mod_div(r, q, MOD2-1);if(divr == -1)return {};
+    Int a0pow = mod_pow(PRIM, p*divr % (MOD2-1), MOD2);
+    for(int i = 0;i < n;i++)(ans[i] *= a0pow) %= MOD2;
+    for(int i = n-1;i >= 0;i--){
+        Int x = (Int)i - p * d / q;
+        if(x < 0)ans[i] = 0;
+        else ans[i] = ans[x];
+    }
+    return ans;
+}

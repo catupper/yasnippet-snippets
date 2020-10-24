@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: BabyStepGiantStep
+# key: /bsgs
+# group: NumberTheory
+# --
+
+// x^p == y mod mod or -1
+Int mod_rank(Int x, Int y, Int mod){
+    int b = 1;
+    while(b * b < mod)b++;
+    map<Int, Int> giant, baby;
+    Int tmp = 1;
+    for(int i = 0;i < b;i++){
+        baby[tmp] = i;
+        tmp = tmp * x % MOD2;
+    }
+    Int tmp2 = 1;
+    for(int i = 0;i < b;i++){
+        giant[tmp2] = i;
+        tmp2 = tmp * tmp2 % MOD2;
+    }
+    tmp = 1;
+    for(int i = 0;i < b;i++){        
+        Int invb = y * inv(tmp, MOD2)  %MOD2;
+        if(giant.count(invb)){
+            return giant[invb] * b + i;
+        }
+        tmp = tmp * x % MOD2;
+    }
+    return -1;
+}

@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name : acl-lazy-seg template argument
+# key: /acl-lazy-seg
+# --
+
+${1:S} op($1 x, $1 y)
+{
+    return x + y;
+}
+
+$1 e()
+{
+    return 0;
+}
+
+$1 mapping(${2:T} x, $1 y)
+{
+    return y ? x : -x;
+}
+
+$2 composition($2 x, $2 y)
+{
+    return x ^ y;
+}
+
+$2 id()
+{
+    return false;
+}
+
+using lazy_seg = atcoder::lazy_segtree<$1, op, e, $2, mapping, composition, id>;

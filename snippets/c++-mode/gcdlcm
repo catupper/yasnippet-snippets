@@ -4,16 +4,31 @@
 # group: NumberTheory
 # --
 
-#define gcd _____gcd //for c++17
-Int gcd(Int x, Int y){
-  if(x == 0)return y;
-  return gcd(y%x, x);
+// ax + by = gcd(a,b) return gcd(a,b)
+Int euclid(Int a, Int b, Int &x, Int &y){
+    if(a == 0){
+        x = 0;
+        y = 1;
+        return b;
+    }
+    Int g = euclid(b % a, a, y, x);
+    x -= b/a * y;
+    return g;
+}
+
+// a / b mod m
+Int mod_div(Int a, Int b, Int m){
+    Int x, y;
+    Int g = euclid(b, m, x, y);
+    if(a % g != 0)return -1;
+    return x * a / g % m;
 }
 
 Int lcm(vector<Int> vec){
   Int res = 1;
+  Int x, y;
   for(auto n:vec){
-    Int g = gcd(res, n);
+    Int g = euclid(res, n, x, y);
     res *= n / g;
   }
   return res;

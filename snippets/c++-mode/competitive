@@ -4,6 +4,7 @@
 # group: CompetitiveProgramming
 # --
 
+
 #include<iostream>
 #include<cstdio>
 #include<algorithm>
@@ -15,9 +16,11 @@
 #include<queue>
 #include<stack>
 #include<complex>
+#include<numeric>
 using namespace std;
 #define MOD 1000000007
 #define MOD2 998244353
+#define PRIM 3
 #define INF (1<<29)
 #define LINF (1LL<<60)
 #define EPS (1e-10)

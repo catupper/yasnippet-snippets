@@ -3,7 +3,7 @@
 # key: /power
 # group: NumberTheory
 # --
-Int mod_pow(Int x, Int a, Int m = MOD){
+Int mod_pow(Int x, Int a, Int m){
   if(a == 0)return 1;
   Int res = mod_pow(x, a / 2, m);
   res = res * res % m;
@@ -11,6 +11,7 @@ Int mod_pow(Int x, Int a, Int m = MOD){
   return res % m;
 }
 
-Int inv(Int x, Int m = MOD){
+unordered_map<P, Int> inv_memo;
+Int inv(Int x, Int m){
     return mod_pow(x, m-2, m);
 }

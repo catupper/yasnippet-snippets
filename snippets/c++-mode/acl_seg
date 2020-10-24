@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name : acl-seg template argument
+# key: /acl-seg
+# --
+
+${1:S} op($1 x, $1 y)
+{
+    return x + y;
+}
+
+$1 e()
+{
+    return 0;
+}
+
+using seg = atcoder::segtree<$1, op, e>;
+
+$0
