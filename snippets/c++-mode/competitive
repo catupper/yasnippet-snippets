@@ -1,37 +1,37 @@
 # -*- mode: snippet -*-
 # name: competitive-programming
-# key: /comp
-# group: CompetitiveProgramming
+# key: /acl-comp
+# group: AtCoderCompetitiveProgramming
 # --
 
-
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cmath>
-#include<vector>
-#include<map>
-#include<set>
-#include<string>
-#include<queue>
-#include<stack>
-#include<complex>
-#include<numeric>
+#include <algorithm>
+#include <cmath>
+#include <complex>
+#include <cstdio>
+#include <iostream>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <stack>
+#include <string>
+#include <vector>
 using namespace std;
-#define MOD 1000000007
-#define MOD2 998244353
-#define PRIM 3
-#define INF (1<<29)
-#define LINF (1LL<<60)
-#define EPS (1e-10)
-#define PI 3.1415926535897932384626433832795028
-typedef long long Int;
-typedef pair<Int, Int> P;
-typedef long double Real;
-typedef complex<Real> CP;
+using Int = long long;
+using Real = long double;
+using CP = complex<Real>;
+using P = pair<Int, Int>;
+
+const Int MOD = 1000000007;
+const Int MOD2 = 998244353;
+const Int LINF = (1LL << 60);
+const int INF = (1000000007);
+const Real EPS = 1e-10;
+const long double PI = 3.141592653589793238462643383279502884L;
 
 $0
 
-int main(){
+int main()
+{
     return 0;
 }
