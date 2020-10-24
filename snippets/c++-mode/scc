@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: Graph
+# name: StronglyConnectedComponent
 # key: /scc
 # group: Graph
 # --

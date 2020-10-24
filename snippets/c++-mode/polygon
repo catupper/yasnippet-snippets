@@ -26,8 +26,8 @@ public:
     return points[index];
   }
   //Signed Area
-  double area(){
-    double area = 0;
+  Real area(){
+    Real area = 0;
     for(int i = 0;i < n;i++){
       area += points[i].cross(points[(i+1)%n]);
     }

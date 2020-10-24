@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: Dinic
 # key: /dinic
-# group: Algorithm
+# group: Graph
 # --
 
 class Dinic{

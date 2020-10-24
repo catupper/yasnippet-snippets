@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: MinCostFlow
 # key: /mcf
-# group: Algorithm
+# group: Graph
 # --
 
 class MinCostFlow{
