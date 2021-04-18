@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: competitive-programming
-# key: /acl-comp
-# group: AtCoderCompetitiveProgramming
+# key: /comp
+# group: CompetitiveProgramming
 # --
 
 #include <algorithm>
